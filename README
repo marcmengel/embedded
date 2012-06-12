@@ -1,0 +1,6 @@
+Embedded plugin for Redmine
+Copyright (C) 2008  Jean-Philippe Lang
+
+The plugin lets you embed html pages (eg. documentation, test reports) in your projects.
+
+See: http://www.redmine.org/wiki/redmine/PluginEmbedded
