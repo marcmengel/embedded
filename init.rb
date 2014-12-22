@@ -18,16 +18,9 @@ Redmine::Plugin.register :embedded do
     permission :view_embedded_doc, {:embedded => :index}
   end
 
-  menu :project_menu, :embedded, { :controller => 'embedded', :action => 'index', :path => nil },
+  menu :project_menu, :embedded, { :controller => 'embedded', :action => 'index' },
                                  :caption => Proc.new { Setting.plugin_embedded['menu'] },
-                                 :if => Proc.new { !Setting.plugin_embedded['menu'].blank? }
+                                 :if => Proc.new { !Setting.plugin_embedded['menu'].blank? },
+				 :param => :project_id
 end
 
-# Routes
-class << ActionController::Routing::Routes;self;end.class_eval do
-  define_method :clear!, lambda {}
-end
-
-ActionController::Routing::Routes.draw do |map|
-  map.connect 'embedded/:id/*path', :controller => 'embedded', :action => 'index'
-end
