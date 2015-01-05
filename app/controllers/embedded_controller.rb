@@ -26,8 +26,10 @@ class EmbeddedController < ApplicationController
   
   def index
     path = get_real_path(params[:path])
+      Rails.logger.warn "got path: #{path}"
     if File.directory?(path)
       file = get_index_file(path)
+      Rails.logger.warn "got index file: #{file}"
       target = params[:path] || []
       target << file
       # Forces redirect to the index file when the requested path is a directory
@@ -58,7 +60,8 @@ class EmbeddedController < ApplicationController
   private
   
   def find_project
-    @project = Project.find(params[:id])
+    @project = Project.find(params[:project_id])
+    Rails.logger.warn "embedded.find_project #{params[:project_id]} found #{@project.name}"
   rescue ActiveRecord::RecordNotFound
     render_404
   end
@@ -75,6 +78,7 @@ class EmbeddedController < ApplicationController
     real = File.join(real, path) unless path.nil? || path.empty?
     dir = File.expand_path(get_project_directory)
     real = File.expand_path(real)
+    Rails.logger.warn "embedded.get_real_path: got path: #{real}"
     raise Errno::ENOENT unless real.starts_with?(dir) && File.exist?(real)
     real
   end

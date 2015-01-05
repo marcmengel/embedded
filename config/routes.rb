@@ -3,8 +3,10 @@ require 'embedded'
 
 if Rails::VERSION::MAJOR >= 3
   RedmineApp::Application.routes.draw do
-    match 'embedded/:id', :to => 'embedded#index'
-    match 'embedded/embed_file/:id', :to => 'embedded#embed_file'
+    #match 'embedded/:id', :to => 'embedded#index' , :as => 'embedded'
+    match 'embedded/:project_id', :to => 'embedded#index' 
+    match 'embedded/:project_id/*path', :to => 'embedded#index' , :format => false
+    match 'embedded/embed_file/:project_id', :to => 'embedded#embed_file'
   end
 else
   class << ActionController::Routing::Routes;self;end.class_eval do
